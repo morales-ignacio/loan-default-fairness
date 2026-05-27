@@ -224,3 +224,4 @@ data/*
 models/*
 !models/.gitkeep
 .venv/
+.DS_Store
