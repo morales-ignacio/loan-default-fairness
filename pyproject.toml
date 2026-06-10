@@ -1,0 +1,11 @@
+[project]
+name = "loan-default-fairness"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "jupyterlab>=4.5.8",
+]

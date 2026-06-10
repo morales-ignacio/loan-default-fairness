@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Notebooks
+.ipynb_checkpoints/
+# MLflow
+mlruns/
+# OS
+.DS_Store
+# Project artifacts
+data/
+models/
