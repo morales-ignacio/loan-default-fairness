@@ -1,6 +1,6 @@
 # EDA Findings
 
-**Dataset:** 1,345,310 completed loans (Fully Paid + Charged Off), 105 features after leakage audit  
+**Dataset:** 1,345,310 completed loans (Fully Paid + Charged Off), 105 columns after leakage audit  
 **Overall default rate:** 19.96%
 
 A working record of patterns discovered during exploratory data analysis. The findings below organize into five sections: categorical relationships, numerical distributions and data quality, default rate by numeric ranges, missingness analysis, and correlation/redundancy. A modeling implications section at the end summarizes the decisions that come out of these findings.
@@ -61,7 +61,7 @@ Small business loans default at ~1.5x the overall rate. Wedding, car, and credit
 ### 1.5 Joint applications default more than individual applications
 
 ```
-Joint App    25k loans   24.59%
+Joint App    26k loans   24.59%
 Individual   1.32M       19.87%
 ```
 
@@ -155,7 +155,7 @@ mths_since_recent_bc_dlq:      -1.34%
 mths_since_recent_revol_delinq:-1.07%
 ```
 
-**Implication for feature engineering (Week 2):** standard median imputation would destroy this signal. Correct approach is to create binary missingness indicators (`has_public_record`, `has_been_delinquent`, etc.) and either fill NaN with a sentinel value (999) for tree models or keep NaN for LightGBM (which handles missing natively).
+**Implication for feature engineering:** because the NaN itself carries signal, median imputation does not preserve it. The pipeline median-imputes these features for simplicity; encoding the missingness explicitly with binary indicators would be a natural extension.
 
 ---
 
@@ -187,9 +187,11 @@ funded_amnt_inv          essentially loan_amnt
 num_sats                 essentially open_acc
 installment              mechanically derived from loan_amnt + term + int_rate
 num_rev_tl_bal_gt_0      essentially num_actv_rev_tl
+sub_grade                redundant with grade, high cardinality
+zip_code                 high cardinality, little signal beyond addr_state
 ```
 
-Plus the entire `sec_app_*` and `*_joint` group (~17 features) for the same structural missingness reason. Combined reduction: ~22 features dropped, taking the feature count from 102 down to ~80.
+Plus the entire sec_app_* and *_joint group (~17 features) for the structural missingness reason, and issue_year (used only for the temporal split, not a feature). Combined, this takes the dataset from 105 columns down to 79 modeling features (72 numeric + 7 categorical).
 
 Note: these drops matter most for linear models (multicollinearity). Tree models handle correlated features fine, but the drops still simplify the model and clarify feature importance interpretation.
 
