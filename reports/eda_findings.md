@@ -83,15 +83,15 @@ Five issues found in the raw numerical features that required cleaning:
 
 The most important point: **sentinel values disguised as real numbers** (`-1`, `999` for "couldn't compute" / "out of range") would catastrophically mislead a model. A model treats them as real numeric values and learns nonsense.
 
-These transformations are documented here and will be re-applied in the modeling preprocessing pipeline. The canonical `loans_clean.parquet` is not modified — cleaning lives in code, not in the persisted dataset.
+These transformations are documented here and will be re-applied in the modeling preprocessing pipeline. The canonical `loans_clean.parquet` is not modified: cleaning lives in code, not in the persisted dataset.
 
 ---
 
 ## 3. Default rate by numerical decile
 
-Every key numerical feature shows a clean monotonic relationship with default — no kinks, no U-shapes. Good news for modeling: simple models will learn the signal cleanly.
+Every key numerical feature shows a clean monotonic relationship with default (no kinks, no U-shapes). Good news for modeling: simple models will learn the signal cleanly.
 
-### 3.1 `int_rate` — the dominant predictor (8.18x spread)
+### 3.1 `int_rate`: the dominant predictor (8.18x spread)
 
 ```
 5.31-7.39%:    4.91% default
@@ -100,7 +100,7 @@ Every key numerical feature shows a clean monotonic relationship with default �
 
 Although int_rate is one of the most predictive features in the dataset, it is not purely borrower information. The interest rate assigned to a loan already reflects Lending Club's internal assessment of credit risk, meaning a model that uses int_rate may be partially reproducing the lender's underwriting decisions rather than learning default risk independently. To quantify this effect, models will be trained both with and without int_rate, allowing the analysis to measure how much predictive performance comes from the lender's pricing decision versus the remaining borrower and loan characteristics.
 
-### 3.2 `fico_range_low` — the strongest independent predictor (2.84x spread)
+### 3.2 `fico_range_low`: the strongest independent predictor (2.84x spread)
 
 ```
 625-665:  26.28% default
@@ -109,7 +109,7 @@ Although int_rate is one of the most predictive features in the dataset, it is n
 
 Cleanly monotonic across deciles. This is the strongest feature *not* derived from Lending Club's own risk model. FICO is the gold-standard credit signal and the data confirms it.
 
-### 3.3 `dti` — clean and predictive (~2x spread)
+### 3.3 `dti`: clean and predictive (~2x spread)
 
 ```
 0-7.27:    14.65%
@@ -118,7 +118,7 @@ Cleanly monotonic across deciles. This is the strongest feature *not* derived fr
 
 Monotonic across all deciles. Higher debt-to-income → higher default, exactly as credit theory predicts.
 
-### 3.4 `annual_inc` — weaker than expected (1.6x spread)
+### 3.4 `annual_inc`: weaker than expected (1.6x spread)
 
 ```
 $0-34k:    24.05%
