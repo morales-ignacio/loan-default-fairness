@@ -1,0 +1,35 @@
+{
+  "dataset": "2017 test set (held out, never used during development)",
+  "n_loans": 169300,
+  "actual_default_rate": 0.23123449497932663,
+  "total_volume_usd": 2421184400.0,
+  "metrics": {
+    "auc": 0.7188431841508915,
+    "brier": 0.15871664757424608,
+    "profit_at_2016_threshold": 30856497.5,
+    "profit_at_2017_optimal_threshold": 31297882.5,
+    "recoverable_profit_from_retuning": 441385.0
+  },
+  "thresholds": {
+    "deployed_2016_threshold": 0.1592462311557789,
+    "optimal_2017_threshold": 0.16999999999999993,
+    "gap_to_2017_optimal": 0.010753768844221023
+  },
+  "decisions": {
+    "rejected_count": 107901,
+    "approved_count": 61399,
+    "rejection_rate": 0.6373360897814531,
+    "fpr_wrongful_rejection": 0.5728302292703915,
+    "fnr_missed_default": 0.14820680494533564
+  },
+  "comparison_vs_validation_2016": {
+    "val_auc": 0.7281293573543742,
+    "val_brier": 0.1569888852929198,
+    "val_profit": 65566507.5,
+    "val_profit_per_loan": 223.70394411368326,
+    "test_profit_per_loan": 182.25928824571767,
+    "auc_change": -0.009286173203482684,
+    "brier_change": 0.0017277622813262894,
+    "per_loan_profit_change_pct": -18.526564666604177
+  }
+}
