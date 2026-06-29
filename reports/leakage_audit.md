@@ -10,7 +10,7 @@
 
 | Category | Count |
 |---|---|
-| Keep (pre-decision features) | ~100 |
+| Keep (pre-decision features) | 103 (+ target + issue_year = 105 cols) |
 | Drop: payment/recovery leakage | 16 |
 | Drop: hardship program leakage | 15 |
 | Drop: debt settlement leakage | 7 |
@@ -91,7 +91,7 @@ debt_settlement_flag, debt_settlement_flag_date, settlement_status, settlement_d
 
 ---
 
-## KEEP — Pre-decision features (~95)
+## KEEP — Pre-decision features (103)
 
 All known at application time. Grouped for readability.
 
